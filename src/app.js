@@ -1,3 +1,4 @@
+const cors = require('cors')
 const express = require('express')
 const userRouter = require('./routers/user')
 const fbRouter = require('./routers/facebook')
@@ -5,6 +6,8 @@ const port = process.env.PORT
 require('./db/db')
 
 const app = express()
+app.use(cors())
+app.options('*', cors())
 
 app.use(express.json())
 app.use(userRouter)

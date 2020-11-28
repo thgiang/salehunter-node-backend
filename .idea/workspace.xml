@@ -19,16 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="Register - login - logout">
-      <change afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/helpers/facebook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routers/facebook.js" afterDir="false" />
+    <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="FB function">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/facebook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/user.js" afterDir="false" />
     </list>
@@ -42,6 +40,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/helpers/facebook.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1kpkKx3VNq7yfGe8Z39TXzm1J0A" />
   <component name="ProjectLevelVcsManager">
@@ -80,7 +81,7 @@
       <workItem from="1606404860836" duration="1158000" />
       <workItem from="1606406995164" duration="3190000" />
       <workItem from="1606491292755" duration="4223000" />
-      <workItem from="1606529523752" duration="2195000" />
+      <workItem from="1606529523752" duration="9041000" />
     </task>
     <task id="LOCAL-00001" summary="Register - login - logout">
       <created>1606409683956</created>
@@ -89,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606409683956</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="FB function">
+      <created>1606533292692</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606533292692</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,9 +117,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Register - login - logout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Register - login - logout" />
+    <MESSAGE value="FB function" />
+    <option name="LAST_COMMIT_MESSAGE" value="FB function" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="828" y="412" key="#ESLint" timestamp="1606548876110">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="828" y="412" key="#ESLint/0.0.1920.1040@0.0.1920.1040" timestamp="1606548876110" />
     <state x="794" y="443" key="NewPhpFileDialog" timestamp="1606407151926">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -120,10 +133,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606493860942" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1606409686273">
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1606533294090">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606409686273" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606533294090" />
     <state x="565" y="131" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1606410170211">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -136,9 +149,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606496289077" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606493702455">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606549657207">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606493702455" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606549657207" />
   </component>
 </project>

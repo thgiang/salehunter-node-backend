@@ -1,7 +1,6 @@
 const express = require('express')
 const User = require('../models/User')
 const auth = require('../middleware/auth')
-
 const router = express.Router()
 
 router.post('/users', async (req, res) => {
@@ -25,15 +24,18 @@ router.post('/users/login', async (req, res) => {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' })
     }
     const token = await user.generateAuthToken()
-    res.send({ user, token })
+    let userData = user.toObject()
+    userData.token = token
+    delete userData.password
+    delete userData.tokens
+    res.send(userData)
   } catch (error) {
     res.status(400).send(error)
   }
 })
 
 router.get('/users/me', auth, async (req, res) => {
-  // View logged in user profile
-  res.send(req.user)
+  res.send({user: req.user})
 })
 
 router.post('/users/me/logout_all', auth, async (req, res) => {
