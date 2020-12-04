@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Company = require('./Company')
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -25,13 +26,22 @@ const userSchema = mongoose.Schema({
     required: true,
     minLength: 7
   },
+  companyId: {
+    type: mongoose.Types.ObjectId,
+    required: false
+  },
+  fbAccessToken: {
+    type: String,
+    required: false,
+    default: ''
+  },
   tokens: [{
     token: {
       type: String,
       required: true
     }
   }]
-})
+}, { timestamps: true })
 
 userSchema.pre('save', async function (next) {
   // Hash the password before saving the user model
@@ -51,6 +61,14 @@ userSchema.methods.generateAuthToken = async function () {
   return token
 }
 
+userSchema.methods.createCompanyForUser = async function () {
+  const user = this
+  const company = new Company({ name: user.name, userId: user._id })
+  await company.save()
+  user.companyId = company._id
+  await user.save()
+  return company
+}
 userSchema.statics.findByCredentials = async (email, password) => {
   // Search for a user by email and password.
   const user = await User.findOne({ email })
@@ -61,9 +79,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   if (!isPasswordMatch) {
     throw new Error({ error: 'Invalid login credentials' })
   }
-  let userData = user.toObject();
-  delete userData.password
-  return userData
+  return user
 }
 
 const User = mongoose.model('User', userSchema)

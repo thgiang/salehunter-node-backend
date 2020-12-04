@@ -9,7 +9,8 @@ router.post('/users', async (req, res) => {
     const user = new User(req.body)
     await user.save()
     const token = await user.generateAuthToken()
-    res.status(201).send({ user, token })
+    const company = await user.createCompanyForUser()
+    res.status(201).send({ user, token, company })
   } catch (error) {
     res.status(400).send(error)
   }
@@ -24,21 +25,22 @@ router.post('/users/login', async (req, res) => {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' })
     }
     const token = await user.generateAuthToken()
-    let userData = user.toObject()
+    const userData = user.toObject()
     userData.token = token
     delete userData.password
     delete userData.tokens
     res.send(userData)
   } catch (error) {
+    console.log(error)
     res.status(400).send(error)
   }
 })
 
 router.get('/users/me', auth, async (req, res) => {
-  res.send({user: req.user})
+  res.send({ user: req.user })
 })
 
-router.post('/users/me/logout_all', auth, async (req, res) => {
+router.post('/users/logout_all', auth, async (req, res) => {
   // Log user out of all devices
   try {
     req.user.tokens.splice(0, req.user.tokens.length)
@@ -49,7 +51,7 @@ router.post('/users/me/logout_all', auth, async (req, res) => {
   }
 })
 
-router.post('/users/me/logout', auth, async (req, res) => {
+router.post('/users/logout', auth, async (req, res) => {
   // Log user out of the application
   try {
     req.user.tokens = req.user.tokens.filter((token) => {

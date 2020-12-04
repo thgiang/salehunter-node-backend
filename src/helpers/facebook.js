@@ -1,5 +1,5 @@
-import axois from 'axios'
-import { isEmpty } from 'lodash'
+const { isEmpty } = require('lodash')
+const axois = require('axios')
 
 module.exports = {
   translateError: function (code) {
@@ -20,7 +20,7 @@ module.exports = {
     return 'Có lỗi xảy ra, mã lỗi ' + code
   },
 
-  requestFb: function (method, url, accessToken, params = {}) {
+  requestFb: async function (method, url, accessToken, params = {}) {
     if (!url.startsWith('/')) {
       url = '/' + url
     }
@@ -28,37 +28,45 @@ module.exports = {
     params.access_token = accessToken
 
     if (method.toUpperCase() === 'GET') {
-      axois.get(url, {
+      const response = await axois.get(url, {
         params: params
-      }).then((response) => {
-        return { success: true, data: response.data }
       }).catch((error) => {
         const errorMessage = this.translateError(error.response.status)
         return { success: false, message: errorMessage }
       })
+
+      if (response) {
+        return { success: true, data: response.data }
+      } else {
+        return { success: false, msg: 'Lỗi gì đó' }
+      }
     }
 
     if (method.toUpperCase() === 'POST') {
-      axois.post(url, params).then((response) => {
-        return { success: true, data: response.data }
-      }).catch((error) => {
+      const response = await axois.post(url, params).catch((error) => {
         const errorMessage = this.translateError(error.response.status)
         return { success: false, message: errorMessage }
       })
+
+      if (response) {
+        return { success: true, data: response.data }
+      } else {
+        return { success: false, msg: 'Lỗi gì đó' }
+      }
     }
   },
 
-  longLiveAccessToken: function (shortToken) {
+  longLiveAccessToken: async function (shortToken) {
     const urlRequest = 'oauth/access_token?grant_type=fb_exchange_token&fb_exchange_token=' + shortToken +
-            '&client_id=' + process.env.FB_APP_ID + '&client_secret=' + process.env.FB_APP_SECRET
+        '&client_id=' + process.env.FB_APP_ID + '&client_secret=' + process.env.FB_APP_SECRET
 
-    return this.requestFb('GET', urlRequest, shortToken)
+    return await this.requestFb('GET', urlRequest, shortToken)
   },
 
-  getInfoUserFb: function (fid, accessToken) {
+  getInfoUserFb: async function (fid, accessToken) {
     const urlRequest = '/' + fid + '?fields=name,picture.width(320).height(320)'
 
-    const response = this.requestFb('get', urlRequest, accessToken)
+    const response = await this.requestFb('get', urlRequest, accessToken)
 
     if (response.success === false) {
       response.data = { profile_pic: '', name: 'Người dùng Facebook' }
@@ -72,10 +80,10 @@ module.exports = {
 
     return response
   },
-  getInfoUserCommentFb: function (fid, accessToken) {
+  getInfoUserCommentFb: async function (fid, accessToken) {
     const urlRequest = '/' + fid + '/picture?type=normal'
 
-    const response = this.requestFb('get', urlRequest, accessToken)
+    const response = await this.requestFb('get', urlRequest, accessToken)
 
     if (response.success === false) {
       response.data = {
@@ -90,9 +98,9 @@ module.exports = {
 
     return response
   },
-  sendMessage: function (params, pageAccessToken) {
+  sendMessage: async function (params, pageAccessToken) {
     const urlRequest = '/me/messages'
-    const response = this.requestFb('post', urlRequest, pageAccessToken, params)
+    const response = await this.requestFb('post', urlRequest, pageAccessToken, params)
 
     if (response.success == true) {
       response.data.mid = $response.data.message_id
@@ -101,17 +109,17 @@ module.exports = {
 
     return response
   },
-  sendTyping: function (params, pageAccessToken) {
+  sendTyping: async function (params, pageAccessToken) {
     const urlRequest = '/me/messages'
 
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
   },
-  me: function (accessToken) {
+  me: async function (accessToken) {
     const urlRequest = '/me'
 
-    return this.requestFb('get', urlRequest, accessToken)
+    return await this.requestFb('get', urlRequest, accessToken)
   },
-  getPages: function (accessToken) {
+  getPages: async function (accessToken) {
     let isNext = true
     let after = null
 
@@ -125,7 +133,7 @@ module.exports = {
         urlRequest = '/me/accounts?limit=10'
       }
 
-      const response = this.requestFb('get', urlRequest, accessToken)
+      const response = await this.requestFb('get', urlRequest, accessToken)
 
       if (!response.success) {
         return response
@@ -147,110 +155,110 @@ module.exports = {
       data: returnData
     }
   },
-  checkSubscribeLivestream: function (pid, pageAccessToken) {
+  checkSubscribeLivestream: async function (pid, pageAccessToken) {
     const urlRequest = '/' + pid + '/subscribed_apps'
-    return this.requestFb('get', urlRequest, pageAccessToken, {})
+    return await this.requestFb('get', urlRequest, pageAccessToken, {})
   },
-  subscribePages: function (pid, pageAccessToken) {
-    const urlRequest = '/' + pid + '/subscribed_apps'
-    const params = {
-      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads', 'live_videos']
-    }
-
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
-  },
-  unsubscribePage: function (pid, pageAccessToken) {
+  subscribePages: async function (pid, pageAccessToken) {
     const urlRequest = '/' + pid + '/subscribed_apps'
     const params = {
       subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads', 'live_videos']
     }
 
-    return this.requestFb('delete', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
+  },
+  unsubscribePage: async function (pid, pageAccessToken) {
+    const urlRequest = '/' + pid + '/subscribed_apps'
+    const params = {
+      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads', 'live_videos']
+    }
+
+    return await this.requestFb('delete', urlRequest, pageAccessToken, params)
   },
 
-  getPostDetail: function (postId, pageAccessToken) {
+  getPostDetail: async function (postId, pageAccessToken) {
     const urlRequest = '/' + postId + '?fields=message,created_time,full_picture,picture,permalink_url,attachments'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  getCommentDetail: function (commentId, pageAccessToken) {
+  getCommentDetail: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId + '?fields=attachment,message,is_hidden,from,created_time'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  sendComment: function (commentId, params, pageAccessToken) {
+  sendComment: async function (commentId, params, pageAccessToken) {
     const urlRequest = '/' + commentId + '/comments'
 
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
   },
 
-  checkComment: function (commentId, pageAccessToken) {
+  checkComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId + '?fields=can_hide,can_like,can_reply_privately,can_remove,can_comment'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  likeComment: function (commentId, pageAccessToken) {
+  likeComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId + '/likes'
 
-    return this.requestFb('post', urlRequest, pageAccessToken)
+    return await this.requestFb('post', urlRequest, pageAccessToken)
   },
 
-  unlikeComment: function (commentId, pageAccessToken) {
+  unlikeComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId + '/likes'
 
-    return this.requestFb('delete', urlRequest, pageAccessToken)
+    return await this.requestFb('delete', urlRequest, pageAccessToken)
   },
 
-  hideComment: function (commentId, pageAccessToken) {
+  hideComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId
 
     const params = {
       is_hidden: true
     }
 
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
   },
-  unhideComment: function (commentId, pageAccessToken) {
+  unhideComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId
 
     const params = {
       is_hidden: false
     }
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
   },
-  deleteComment: function (commentId, pageAccessToken) {
+  deleteComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId
-    return this.requestFb('delete', urlRequest, pageAccessToken)
+    return await this.requestFb('delete', urlRequest, pageAccessToken)
   },
-  privateReply: function (commentId, pageAccessToken, params) {
+  privateReply: async function (commentId, pageAccessToken, params) {
     const urlRequest = '/' + commentId + '/private_replies'
-    return this.requestFb('post', urlRequest, pageAccessToken, params)
+    return await this.requestFb('post', urlRequest, pageAccessToken, params)
   },
 
-  getAttachmentComment: function (commentId, pageAccessToken) {
+  getAttachmentComment: async function (commentId, pageAccessToken) {
     const urlRequest = '/' + commentId + '?fields=attachment'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  removePermissionApp: function (fid, accessToken) {
+  removePermissionApp: async function (fid, accessToken) {
     const urlRequest = '/' + fid + '/permissions'
 
-    return this.requestFb('delete', urlRequest, accessToken)
+    return await this.requestFb('delete', urlRequest, accessToken)
   },
 
-  getConversationId: function (pid, fid, pageAccessToken) {
+  getConversationId: async function (pid, fid, pageAccessToken) {
     const urlRequest = '/' + pid + '/conversations?user_id=' + fid
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
-  sendMessageViaConversationId: function (conversationId, params, pageAccessToken) {
+  sendMessageViaConversationId: async function (conversationId, params, pageAccessToken) {
     const urlRequest = '/' + conversationId + '/messages'
 
-    const response = this.requestFb('post', urlRequest, pageAccessToken, params)
+    const response = await this.requestFb('post', urlRequest, pageAccessToken, params)
 
     if (response.success === true) {
       response.data.mid = response.data.id
@@ -260,12 +268,12 @@ module.exports = {
     return response
   },
 
-  getConversationDetail: function (conversationId, pageAccessToken, skip = 0, limit = 10) {
+  getConversationDetail: async function (conversationId, pageAccessToken, skip = 0, limit = 10) {
     let urlRequest = '/' + conversationId + '/messages?limit=' + skip + '&pretty=0'
     if (skip !== 0) {
       urlRequest = '/' + conversationId + '/messages?limit=' + skip + '&pretty=0'
 
-      const response = this.requestFb('get', urlRequest, pageAccessToken)
+      const response = await this.requestFb('get', urlRequest, pageAccessToken)
 
       if (isEmpty(response.data.paging.next)) {
         return {
@@ -284,20 +292,20 @@ module.exports = {
     return this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  checkTokenValid: function (id, accessToken) {
+  checkTokenValid: async function (id, accessToken) {
     const urlRequest = '/' + id + '/permissions'
 
-    return this.requestFb('get', urlRequest, accessToken)
+    return await this.requestFb('get', urlRequest, accessToken)
   },
-  getPostLiveStreamDetail: function (postId, pageAccessToken) {
+  getPostLiveStreamDetail: async function (postId, pageAccessToken) {
     const urlRequest = '/' + postId + '?fields=description,live_views,status,permalink_url,creation_time,id'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   },
 
-  getViewsLivestream: function (liveId, pageAccessToken) {
+  getViewsLivestream: async function (liveId, pageAccessToken) {
     const urlRequest = '/' + liveId + '?fields=live_views'
 
-    return this.requestFb('get', urlRequest, pageAccessToken)
+    return await this.requestFb('get', urlRequest, pageAccessToken)
   }
 }
