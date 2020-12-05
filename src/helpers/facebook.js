@@ -143,7 +143,7 @@ module.exports = {
 
       returnData = [...returnData, ...resData.data]
 
-      if (isEmpty(resData.paging.next)) {
+      if (!resData.paging || isEmpty(resData.paging.next)) {
         isNext = false
       } else {
         after = resData.paging.cursors.after

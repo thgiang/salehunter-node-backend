@@ -27,18 +27,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="FB function">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Company.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Fanpages.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/facebook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/facebook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +91,7 @@
       <workItem from="1606491292755" duration="4223000" />
       <workItem from="1606529523752" duration="9041000" />
       <workItem from="1607100336517" duration="7999000" />
+      <workItem from="1607144345313" duration="1669000" />
     </task>
     <task id="LOCAL-00001" summary="Register - login - logout">
       <created>1606409683956</created>
@@ -171,10 +163,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="565" y="131" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1606410170211" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607107250584">
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607147563535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607107250584" />
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607147563535" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1606496289077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
