@@ -28,6 +28,7 @@
     "lodash": "^4.17.20",
     "mongodb": "^3.6.3",
     "mongoose": "^5.10.16",
+    "redis": "^3.0.2",
     "validator": "^13.1.17"
   },
   "devDependencies": {

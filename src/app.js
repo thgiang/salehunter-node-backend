@@ -4,6 +4,7 @@ const userRouter = require('./routers/user')
 const fbRouter = require('./routers/facebook')
 const port = process.env.PORT
 require('./db/db')
+require('dotenv').config()
 
 const app = express()
 app.use(cors())

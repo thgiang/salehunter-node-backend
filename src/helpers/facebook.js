@@ -64,16 +64,15 @@ module.exports = {
   },
 
   getInfoUserFb: async function (fid, accessToken) {
-    const urlRequest = '/' + fid + '?fields=name,picture.width(320).height(320)'
+    const urlRequest = '/' + fid + '?fields=name'
 
     const response = await this.requestFb('get', urlRequest, accessToken)
 
     if (response.success === false) {
-      response.data = { profile_pic: '', name: 'Người dùng Facebook' }
+      response.data = { name: 'Người dùng Facebook' }
     } else {
       const responseData = response.data
       response.data = {
-        profile_pic: responseData.picture.data.url,
         name: responseData.name
       }
     }
