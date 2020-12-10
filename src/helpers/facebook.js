@@ -51,7 +51,7 @@ module.exports = {
       if (response) {
         return { success: true, data: response.data }
       } else {
-        return { success: false, msg: 'Lỗi gì đó' }
+        return { success: false, msg: 'Có lỗi xảy ra' }
       }
     }
   },
@@ -161,7 +161,7 @@ module.exports = {
   subscribePages: async function (pid, pageAccessToken) {
     const urlRequest = '/' + pid + '/subscribed_apps'
     const params = {
-      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads', 'live_videos']
+      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads'/*, 'live_videos' */]
     }
 
     return await this.requestFb('post', urlRequest, pageAccessToken, params)
@@ -169,7 +169,7 @@ module.exports = {
   unsubscribePage: async function (pid, pageAccessToken) {
     const urlRequest = '/' + pid + '/subscribed_apps'
     const params = {
-      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads', 'live_videos']
+      subscribed_fields: ['messages', 'message_echoes', 'feed', 'messaging_postbacks', 'message_reads'/*, 'live_videos' */]
     }
 
     return await this.requestFb('delete', urlRequest, pageAccessToken, params)

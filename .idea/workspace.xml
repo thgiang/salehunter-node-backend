@@ -26,19 +26,13 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="Long live JWT token">
-      <change afterPath="$PROJECT_DIR$/redis-server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Channel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Message.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/WebhookLog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="Nhan webhook va publish redis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redis-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/redis-server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/facebook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Fanpages.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Fanpage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Channel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Channel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/facebook.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +71,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -104,7 +98,10 @@
       <workItem from="1606529523752" duration="9041000" />
       <workItem from="1607100336517" duration="7999000" />
       <workItem from="1607144345313" duration="25745000" />
-      <workItem from="1607239074075" duration="2493000" />
+      <workItem from="1607239074075" duration="3149000" />
+      <workItem from="1607446307249" duration="2089000" />
+      <workItem from="1607531714597" duration="3607000" />
+      <workItem from="1607612162689" duration="7896000" />
     </task>
     <task id="LOCAL-00001" summary="Register - login - logout">
       <created>1606409683956</created>
@@ -127,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607150089039</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Nhan webhook va publish redis">
+      <created>1607241931427</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1607241931427</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +165,8 @@
     <MESSAGE value="Register - login - logout" />
     <MESSAGE value="FB function" />
     <MESSAGE value="Long live JWT token" />
-    <option name="LAST_COMMIT_MESSAGE" value="Long live JWT token" />
+    <MESSAGE value="Nhan webhook va publish redis" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nhan webhook va publish redis" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1607102694397">
@@ -172,14 +177,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="794" y="443" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606407151926" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1607104996739">
+    <state x="461" y="165" key="SettingsEditor" timestamp="1607618341657">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1607104996739" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1607150090533">
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1607618341657" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1607241935064">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607150090533" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607241935064" />
     <state x="565" y="131" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1606410170211">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -188,17 +193,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607155664496" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607240280674">
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607621854496">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607240280674" />
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607621854496" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1606496289077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606496289077" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1607240018613">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1607620245448">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607240018613" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607620245448" />
   </component>
 </project>

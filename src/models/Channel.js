@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const mySchema = mongoose.Schema({
   channelId: {
@@ -18,8 +19,15 @@ const mySchema = mongoose.Schema({
   fbTo: {
     type: Object,
     required: true
+  },
+  lastMessage: {
+    type: Object,
+    required: false,
+    strict: false
   }
 }, { timestamps: true })
+
+mySchema.plugin(mongoosePaginate)
 
 const Channel = mongoose.model('Channel', mySchema)
 

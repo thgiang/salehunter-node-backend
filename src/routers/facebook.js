@@ -30,7 +30,7 @@ fbRouter.post('/' + process.env.FB_WEBHOOK_URI || 'webhook' + '/', async functio
   const webhookLog = new WebhookLog(req.body)
   webhookLog.save()
 
-  // console.log(util.inspect(req.body, false, null, true /* enable colors */))
+  console.log(util.inspect(req.body, false, null, true /* enable colors */))
   // return res.send('OK')
 
   if (req.body.entry && isArray(req.body.entry)) {
@@ -51,7 +51,7 @@ fbRouter.post('/' + process.env.FB_WEBHOOK_URI || 'webhook' + '/', async functio
           newData.channelId = newData.fbToId.toString() + '_' + newData.fbFromId
           newData.webhookTime = entry.time
 
-          newData = await additionalInfo(newData)
+          newData = await additionalInfo(newData, fanpage.fbAccessToken)
 
           // Save message
           const message = new Message(newData)
@@ -76,7 +76,7 @@ fbRouter.post('/' + process.env.FB_WEBHOOK_URI || 'webhook' + '/', async functio
           newData.channelId = newData.fbToId.toString() + '_' + newData.fbFromId
           newData.webhookTime = entry.time
 
-          newData = await additionalInfo(newData)
+          newData = await additionalInfo(newData, fanpage.fbAccessToken)
 
           // Save message
           const message = new Message(newData)
@@ -92,13 +92,13 @@ fbRouter.post('/' + process.env.FB_WEBHOOK_URI || 'webhook' + '/', async functio
   res.sendStatus(200)
 })
 
-async function additionalInfo (newData) {
+async function additionalInfo (newData, fbAccessToken) {
   // get profile of sender
   const fromProfile = await Profile.findOne({ fbId: newData.fbFromId })
   if (fromProfile) {
     newData.fbFrom = fromProfile.toObject()
   } else {
-    const getProfile = await fb.getInfoUserFb(newData.fbFromId, fanpage.fbAccessToken)
+    const getProfile = await fb.getInfoUserFb(newData.fbFromId, fbAccessToken)
     if (getProfile && getProfile.success) {
       getProfile.data.fbId = newData.fbFromId
       const newProfile = new Profile(getProfile.data)
@@ -113,7 +113,7 @@ async function additionalInfo (newData) {
   if (toProfile) {
     newData.fbTo = toProfile.toObject()
   } else {
-    const getProfile = await fb.getInfoUserFb(newData.fbToId, fanpage.fbAccessToken)
+    const getProfile = await fb.getInfoUserFb(newData.fbToId, fbAccessToken)
     if (getProfile && getProfile.success) {
       getProfile.data.fbId = newData.fbToId
       const newProfile = new Profile(getProfile.data)
@@ -128,9 +128,10 @@ async function additionalInfo (newData) {
     channelId: newData.channelId,
     fbPageId: newData.fbToId,
     fbFrom: newData.fbFrom,
-    fbTo: newData.fbTo
+    fbTo: newData.fbTo,
+    lastMessage: newData.message
   }
-  await Channel.countDocuments(filter) // 0
+  // await Channel.countDocuments(filter) // 0
   await Channel.findOneAndUpdate(filter, update, {
     new: true,
     upsert: true // Make this update into an upsert
@@ -138,6 +139,33 @@ async function additionalInfo (newData) {
 
   return newData
 }
+fbRouter.get('/page/channels', auth, async function (req, res) {
+  if (!req.query.pageId) {
+    return res.send({ success: false, msg: 'pageId is required' })
+  }
+
+  const fanpage = await Fanpage.findOne({ fbPageId: req.query.pageId, companyId: req.user.companyId })
+  if (!fanpage) {
+    return res.send({ success: false, msg: 'Page not found' })
+  }
+
+  let page = 1
+  let limit = 30
+  if (req.query.page) {
+    page = Math.max(req.query.page, 1)
+  }
+  if (req.query.limit) {
+    limit = Math.min(100, Math.max(req.query.limit, 1))
+  }
+
+  await Channel.paginate({ fbPageId: fanpage.fbPageId }, { page: page, limit: limit, sort: { updatedAt: -1 } }, function (err, result) {
+    if (err) {
+      return res.send({ success: false, msg: 'Có lỗi xảy ra khi lấy danh sách channel' })
+    } else {
+      return res.send({ success: true, data: result })
+    }
+  })
+})
 
 fbRouter.get('/pages', auth, async function (req, res) {
   res.send({ success: true, data: await Fanpage.find({ companyId: req.user.companyId }) })
@@ -149,7 +177,7 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
   }
 
   const longLiveAccessToken = await fb.longLiveAccessToken(req.query.access_token)
-  if (longLiveAccessToken && longLiveAccessToken.success) {
+  if (longLiveAccessToken && longLiveAccessToken.success == true) {
     req.user.fbAccessToken = longLiveAccessToken.data.access_token
     req.user.save()
     const pages = await fb.getPages(longLiveAccessToken.data.access_token)
@@ -165,7 +193,7 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
         extraInfo: page
       }
 
-      await Fanpage.countDocuments(filter) // 0
+      // await Fanpage.countDocuments(filter) // 0
 
       await Fanpage.findOneAndUpdate(filter, update, {
         new: true,
@@ -173,7 +201,7 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
       })
 
       // subscribe app
-      fb.subscribePages(page.id, page.access_token)
+      console.log(await fb.subscribePages(page.id, page.access_token))
       // fb.requestFb('post', page.id + '/subscribed_apps', page.access_token, { access_token: page.access_token, subscribed_fields: 'feed,messages' })
     }
     res.send({ success: true, data: await Fanpage.find({ companyId: req.user.companyId }) })

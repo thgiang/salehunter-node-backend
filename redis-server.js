@@ -7,4 +7,4 @@ const redistClient = redis.createClient({ host: redisHost, password: redisPass, 
 redistClient.on('message', function (channel, message) {
   console.log('Message: ' + message + ' on channel: ' + channel + ' is arrive!')
 })
-redistClient.subscribe('5fca83564fb05a1e9454adcb')
+redistClient.subscribe('5fd2519ceec7222dd4dacf93')
