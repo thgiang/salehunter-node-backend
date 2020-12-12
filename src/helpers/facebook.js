@@ -68,33 +68,7 @@ module.exports = {
 
     const response = await this.requestFb('get', urlRequest, accessToken)
 
-    if (response.success === false) {
-      response.data = { name: 'Người dùng Facebook' }
-    } else {
-      const responseData = response.data
-      response.data = {
-        name: responseData.name
-      }
-    }
-
-    return response
-  },
-  getInfoUserCommentFb: async function (fid, accessToken) {
-    const urlRequest = '/' + fid + '/picture?type=normal'
-
-    const response = await this.requestFb('get', urlRequest, accessToken)
-
-    if (response.success === false) {
-      response.data = {
-        profile_pic: '',
-        name: 'Người dùng Facebook'
-      }
-    }
-
-    response.data = {
-      profile_pic: response.data
-    }
-
+    // console.log(response)
     return response
   },
   sendMessage: async function (params, pageAccessToken) {

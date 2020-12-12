@@ -28,11 +28,7 @@
   <component name="ChangeListManager">
     <list default="true" id="259024e4-3856-49fc-9c72-64bcd869d559" name="Default Changelist" comment="Nhan webhook va publish redis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redis-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/redis-server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/facebook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Channel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Channel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/facebook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/facebook.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +98,7 @@
       <workItem from="1607446307249" duration="2089000" />
       <workItem from="1607531714597" duration="3607000" />
       <workItem from="1607612162689" duration="7896000" />
+      <workItem from="1607753590051" duration="14243000" />
     </task>
     <task id="LOCAL-00001" summary="Register - login - logout">
       <created>1606409683956</created>
@@ -193,17 +190,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607155664496" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607621854496">
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1607793750557">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607621854496" />
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607793750557" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1606496289077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606496289077" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1607620245448">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1607762784559">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607620245448" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607762784559" />
   </component>
 </project>

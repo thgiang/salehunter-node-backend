@@ -167,6 +167,21 @@ fbRouter.get('/page/channels', auth, async function (req, res) {
   })
 })
 
+fbRouter.get('/page/delete', auth, async function (req, res) {
+  if (!req.query.fbPageId) {
+    return res.send({ success: false, msg: 'fbPageId is required' })
+  }
+
+  const fanpage = await Fanpage.findOne({ fbPageId: req.query.fbPageId, companyId: req.user.companyId })
+  if (!fanpage) {
+    return res.send({ success: false, msg: 'Page not found' })
+  } else {
+    await fb.unsubscribePage(fanpage.fbPageId, fanpage.fbAccessToken)
+    fanpage.delete()
+    return res.send({ success: true, data: req.query.fbPageId })
+  }
+})
+
 fbRouter.get('/pages', auth, async function (req, res) {
   res.send({ success: true, data: await Fanpage.find({ companyId: req.user.companyId }) })
 })
@@ -201,7 +216,7 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
       })
 
       // subscribe app
-      console.log(await fb.subscribePages(page.id, page.access_token))
+      await fb.subscribePages(page.id, page.access_token)
       // fb.requestFb('post', page.id + '/subscribed_apps', page.access_token, { access_token: page.access_token, subscribed_fields: 'feed,messages' })
     }
     res.send({ success: true, data: await Fanpage.find({ companyId: req.user.companyId }) })
