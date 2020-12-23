@@ -18,16 +18,8 @@ const mySchema = mongoose.Schema({
     type: String,
     required: true
   },
-  fbFrom: {
-    type: Object,
-    required: true
-  },
   fbToId: {
     type: String,
-    required: true
-  },
-  fbTo: {
-    type: Object,
     required: true
   }
 }, { strict: false, timestamps: true })

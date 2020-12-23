@@ -92,53 +92,6 @@ fbRouter.post('/' + process.env.FB_WEBHOOK_URI || 'webhook' + '/', async functio
   res.sendStatus(200)
 })
 
-async function additionalInfo (newData, fbAccessToken) {
-  // get profile of sender
-  const fromProfile = await Profile.findOne({ fbId: newData.fbFromId })
-  if (fromProfile) {
-    newData.fbFrom = fromProfile.toObject()
-  } else {
-    const getProfile = await fb.getInfoUserFb(newData.fbFromId, fbAccessToken)
-    if (getProfile && getProfile.success) {
-      getProfile.data.fbId = newData.fbFromId
-      const newProfile = new Profile(getProfile.data)
-      newProfile.save()
-
-      newData.fbFrom = newProfile.toObject()
-    }
-  }
-
-  // get profile of sender
-  const toProfile = await Profile.findOne({ fbId: newData.fbToId })
-  if (toProfile) {
-    newData.fbTo = toProfile.toObject()
-  } else {
-    const getProfile = await fb.getInfoUserFb(newData.fbToId, fbAccessToken)
-    if (getProfile && getProfile.success) {
-      getProfile.data.fbId = newData.fbToId
-      const newProfile = new Profile(getProfile.data)
-      newProfile.save()
-      newData.fbTo = newProfile.toObject()
-    }
-  }
-
-  // Channel
-  const filter = { channelId: newData.channelId }
-  const update = {
-    channelId: newData.channelId,
-    fbPageId: newData.fbToId,
-    fbFrom: newData.fbFrom,
-    fbTo: newData.fbTo,
-    lastMessage: newData.message
-  }
-  // await Channel.countDocuments(filter) // 0
-  await Channel.findOneAndUpdate(filter, update, {
-    new: true,
-    upsert: true // Make this update into an upsert
-  })
-
-  return newData
-}
 fbRouter.get('/page/channels', auth, async function (req, res) {
   if (!req.query.pageId) {
     return res.send({ success: false, msg: 'pageId is required' })
@@ -158,7 +111,7 @@ fbRouter.get('/page/channels', auth, async function (req, res) {
     limit = Math.min(100, Math.max(req.query.limit, 1))
   }
 
-  await Channel.paginate({ fbPageId: fanpage.fbPageId }, { page: page, limit: limit, sort: { updatedAt: -1 } }, function (err, result) {
+  await Channel.paginate({ fbPageId: fanpage.fbPageId }, { populate: ['fbFrom', 'fbTo'], page: page, limit: limit, sort: { updatedAt: -1 } }, function (err, result) {
     if (err) {
       return res.send({ success: false, msg: 'Có lỗi xảy ra khi lấy danh sách channel' })
     } else {
@@ -192,7 +145,7 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
   }
 
   const longLiveAccessToken = await fb.longLiveAccessToken(req.query.access_token)
-  if (longLiveAccessToken && longLiveAccessToken.success == true) {
+  if (longLiveAccessToken && longLiveAccessToken.success === true) {
     req.user.fbAccessToken = longLiveAccessToken.data.access_token
     req.user.save()
     const pages = await fb.getPages(longLiveAccessToken.data.access_token)
@@ -225,5 +178,68 @@ fbRouter.get('/pages/add', auth, async function (req, res) {
     res.status(503).send({ success: false, msg: 'access_token is required' })
   }
 })
+
+fbRouter.get('/channel/messages/:channelId', auth, async function (req, res) {
+
+})
+async function additionalInfo (newData, fbAccessToken) {
+  const thirtyMinutesAgo = new Date(new Date().getTime() - 30 * 60000)
+  // get profile of sender
+  const fromProfile = await Profile.findOne({ fbId: newData.fbFromId, updatedAt: { $gt: thirtyMinutesAgo } })
+  if (fromProfile) {
+    newData.fbFrom = fromProfile.toObject()
+  } else {
+    const getProfile = await fb.getInfoUserFb(newData.fbFromId, fbAccessToken)
+    if (getProfile && getProfile.success) {
+      getProfile.data.fbId = newData.fbFromId
+
+      // Update or insert profile
+      const filter = { fbId: getProfile.data.fbId }
+      const newProfile = await Profile.findOneAndUpdate(filter, getProfile.data, {
+        new: true,
+        upsert: true // Make this update into an upsert
+      })
+
+      newData.fbFrom = newProfile.toObject()
+    }
+  }
+
+  // get profile of receiver
+  const toProfile = await Profile.findOne({ fbId: newData.fbToId, updatedAt: { $gt: thirtyMinutesAgo } })
+  if (toProfile) {
+    newData.fbTo = toProfile.toObject()
+  } else {
+    const getProfile = await fb.getInfoUserFb(newData.fbToId, fbAccessToken)
+    if (getProfile && getProfile.success) {
+      getProfile.data.fbId = newData.fbToId
+
+      // Update or insert profile
+      const filter = { fbId: getProfile.data.fbId }
+      const newProfile = await Profile.findOneAndUpdate(filter, getProfile.data, {
+        new: true,
+        upsert: true // Make this update into an upsert
+      })
+
+      newData.fbTo = newProfile.toObject()
+    }
+  }
+
+  // Channel
+  const filter = { channelId: newData.channelId }
+  const update = {
+    channelId: newData.channelId,
+    fbPageId: newData.fbToId,
+    fbFromId: newData.fbFromId,
+    fbToId: newData.fbToId,
+    lastMessage: newData.message
+  }
+
+  await Channel.findOneAndUpdate(filter, update, {
+    new: true,
+    upsert: true // Make this update into an upsert
+  })
+
+  return newData
+}
 
 module.exports = fbRouter
